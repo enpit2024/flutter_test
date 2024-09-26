@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_web_app/list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,8 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.only(right: 16.0), // 右端に少し余白を追加
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => NextPage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => NextPage()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey[300],
@@ -73,23 +74,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class NextPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('【画面遷移デモ】2ページ'),
-        backgroundColor: Colors.red,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          child: Text("戻る"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    );
-  }
-}
+// class NextPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('【画面遷移デモ】2ページ'),
+//         backgroundColor: Colors.red,
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           child: Text("戻る"),
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
 
