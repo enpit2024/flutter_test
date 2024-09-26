@@ -7,6 +7,7 @@ class NextPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('Next Page'),
           backgroundColor: const Color(0xFF00FF00),
         ),
@@ -14,7 +15,7 @@ class NextPage extends StatelessWidget {
           child: ListView(
             children: <Widget>[
               ListTile(
-                leading: Image.asset('images/ひマッチ@4x-100.jpg'),
+                leading: const Icon(Icons.person),
                 title: const Text('Map'),
                 subtitle: const Text('これはサブタイトルです'),
                 onTap: () {
