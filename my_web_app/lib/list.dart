@@ -7,6 +7,7 @@ class NextPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: const Text('暇な人リスト'),
           backgroundColor: const Color(0xFF00FF00),
         ),
