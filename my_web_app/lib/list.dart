@@ -22,7 +22,7 @@ class NextPage extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_album),
+                leading: const Icon(Icons.pers),
                 title: const Text('Album'),
                 onTap: () {
                   Navigator.pop(context);
