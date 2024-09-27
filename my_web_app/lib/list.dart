@@ -109,6 +109,11 @@ class NextPage extends StatelessWidget {
               //   ),
               // ),
               )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
