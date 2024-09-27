@@ -187,8 +187,10 @@ class _NextPageState extends State<NextPage> {
       floatingActionButton: FloatingActionButton.large(
         onPressed: () async {
           // 例として新しいHimaPeopleオブジェクトを作成
+          DateTime now = DateTime.now();
+          String formattedTime = "${now.hour}:${now.minute}";
           HimaPeople newPerson =
-              HimaPeople(id: 'new_id', name: '新しい人', isHima: true);
+              HimaPeople(id: 'new_id', name: '$formattedTimeくん', isHima: true);
           // Firestoreにデータを追加
           await addHimaPerson(newPerson);
 
