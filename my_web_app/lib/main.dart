@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Colors.grey[300],
               foregroundColor: Colors.purple,
             ),
-            child: const Text('新規登録'),
+            child: const Text('ログイン'),
           ),
         ],
       ),

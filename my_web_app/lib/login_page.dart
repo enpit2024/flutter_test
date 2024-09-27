@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: double.infinity,
                 // ユーザー登録ボタン
                 child: ElevatedButton(
-                  child: const Text('ユーザー登録'),
+                  child: const Text('新規登録'),
                   onPressed: () async {
                     try {
                       // メール/パスワードでユーザー登録
@@ -88,7 +88,61 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                 ),
-              )
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                width: double.infinity,
+                // ログインボタン
+                child: ElevatedButton(
+                  child: const Text('ログイン'),
+                  onPressed: () async {
+                    try {
+                      // メール/パスワードでログイン
+                      final FirebaseAuth auth = FirebaseAuth.instance;
+                      await auth.signInWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
+                      // ユーザー登録に成功した場合
+                      setState(() {
+                        infoText = "ログインに成功しました！";
+                      });
+                    } catch (e) {
+                      // ユーザー登録に失敗した場合
+                      setState(() {
+                        infoText = "ログインに失敗しました：${e.toString()}";
+                      });
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                width: double.infinity,
+                // ログアウトボタン
+                child: ElevatedButton(
+                  child: const Text('ログアウト'),
+                  onPressed: () async {
+                    try {
+                      // ログアウト
+                      await FirebaseAuth.instance.signOut();
+                      // ユーザー登録に成功した場合
+                      setState(() {
+                        infoText = "ログアウトしました";
+                      });
+                    } catch (e) {
+                      // ユーザー登録に失敗した場合
+                      setState(() {
+                        infoText = "ログアウトに失敗しました：${e.toString()}";
+                      });
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

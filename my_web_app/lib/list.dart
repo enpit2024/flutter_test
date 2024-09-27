@@ -1,7 +1,67 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_web_app/model/himapeople.dart';
+import 'package:my_web_app/firebase/firestore.dart';
 
-class NextPage extends StatelessWidget {
+class NextPage extends StatefulWidget {
   const NextPage({super.key});
+
+  @override
+  State<NextPage> createState() => _NextPageState();
+}
+
+class _NextPageState extends State<NextPage> {
+  List<HimaPeople> himapeopleSnapshot = [];
+  List<HimaPeople> himaPeople = [];
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // getHimaPeople();
+    get();
+  }
+
+  // Future getHimaPeople() async {
+  //   setState(() => isLoading = true);
+  //   himapeopleSnapshot = await FirestoreHelper.instance.selectAllHimaPeople(
+  //       "Ian4IDN4ryYtbv9h4igNeUdZQkB3"); //←users配下のcatsコレクションのドキュメントを全件読み込む
+  //   himaPeople = himapeopleSnapshot //←受け取ったDocumentsnapshotの値をListに変換する
+  //       .map((doc) => HimaPeople(
+  //             id: doc['id'],
+  //             name: doc['name'],
+  //             isHima: doc['isHima'],
+  //           ))
+  //       .toList();
+  //   setState(() => isLoading = false);
+  // }
+
+  Future getHimaPeople() async {
+    setState(() => isLoading = true);
+    himaPeople = await FirestoreHelper.instance
+        .selectAllHimaPeople("Ian4IDN4ryYtbv9h4igNeUdZQkB3");
+    setState(() => isLoading = false);
+  }
+
+  // usersコレクションのドキュメントを全件読み込む
+  Future get() async {
+    final snapshot = await FirebaseFirestore.instance.collection('users').get();
+    final himaPeople = snapshot.docs
+        .map((doc) => HimaPeople.fromFirestore(
+            doc as DocumentSnapshot<Map<String, dynamic>>))
+        .toList();
+    setState(() {
+      this.himaPeople = himaPeople;
+    });
+  }
+
+  Future<void> addHimaPerson(HimaPeople person) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'id': person.id,
+      'name': person.name,
+      'isHima': person.isHima,
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +136,21 @@ class NextPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
+        for (var person in himaPeople)
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text(person.name),
+                Text('~00:00'),
+                Text('テスト'),
+              ],
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
       ]
 
               //     ListTile(
@@ -110,7 +185,16 @@ class NextPage extends StatelessWidget {
               // ),
               )),
       floatingActionButton: FloatingActionButton.large(
-        onPressed: () {},
+        onPressed: () async {
+          // 例として新しいHimaPeopleオブジェクトを作成
+          HimaPeople newPerson =
+              HimaPeople(id: 'new_id', name: '新しい人', isHima: true);
+          // Firestoreにデータを追加
+          await addHimaPerson(newPerson);
+
+          // getHimaPeople();
+          get();
+        },
         child: Text(
           '暇',
           style: TextStyle(
