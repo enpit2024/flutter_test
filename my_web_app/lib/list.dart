@@ -77,7 +77,13 @@ class NextPage extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-        ]
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.add),
+          ),
+        ]))
 
                 //     ListTile(
                 //       leading: const Icon(Icons.person),
@@ -109,6 +115,6 @@ class NextPage extends StatelessWidget {
                 //     child: const Text('Go back!'),
                 //   ),
                 // ),
-                )));
+                );
   }
 }

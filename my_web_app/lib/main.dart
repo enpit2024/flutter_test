@@ -77,3 +77,23 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+// class NextPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('【画面遷移デモ】2ページ'),
+//         backgroundColor: Colors.red,
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           child: Text("戻る"),
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
