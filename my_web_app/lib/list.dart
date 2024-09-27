@@ -109,9 +109,19 @@ class NextPage extends StatelessWidget {
               //   ),
               // ),
               )),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.large(
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: Text(
+          '暇',
+          style: TextStyle(
+            fontSize: 36, // Increased font size
+            fontWeight: FontWeight.bold, // Optional: makes the text bolder
+            color: Colors.white, // Ensures good contrast with the background
+          ),
+        ),
+        backgroundColor: Colors.lightBlue, // Light blue color
+        elevation: 8.0,
+        shape: CircleBorder(), // Ensures a perfect circle shape
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
@@ -121,12 +131,8 @@ class NextPage extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.person),
+            label: 'Friends',
           ),
         ],
       ),
