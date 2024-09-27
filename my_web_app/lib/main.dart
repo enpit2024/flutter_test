@@ -48,6 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Stack(
         children: [
+          // Container to set the background color
+          Container(
+            color: Colors.white, // Set background color here
+          ),
           Center(
             child: Image.asset('images/ひマッチ@4x-100.jpg'),
           ),
