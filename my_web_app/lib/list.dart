@@ -44,6 +44,7 @@ class NextPage extends StatelessWidget {
                 Text('3学'),
               ],
             ),
+            
             onTap: () {
               Navigator.pop(context);
             },
