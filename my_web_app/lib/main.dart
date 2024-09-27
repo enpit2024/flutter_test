@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_web_app/list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:my_web_app/login_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -45,6 +53,19 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[300],
+              foregroundColor: Colors.purple,
+            ),
+            child: const Text('新規登録'),
+          ),
+        ],
       ),
       body: Stack(
         children: [

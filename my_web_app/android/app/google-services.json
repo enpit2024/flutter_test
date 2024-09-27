@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "677222401326",
+    "project_id": "enpit2024-flutter-test",
+    "storage_bucket": "enpit2024-flutter-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677222401326:android:60c819e6c38e7a378426bf",
+        "android_client_info": {
+          "package_name": "com.example.my"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHTiCgCcB9arg5AaE_wlRE64im7swIc24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
