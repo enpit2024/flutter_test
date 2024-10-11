@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_web_app/list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:my_web_app/login_page.dart';
 // class LoginSample extends StatelessWidget {
 //   const LoginSample({super.key});
 
@@ -77,9 +80,8 @@ class _LoginPageState extends State<LoginPage> {
                         password: password,
                       );
                       // ユーザー登録に成功した場合
-                      setState(() {
-                        infoText = "登録に成功しました！";
-                      });
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => NextPage()));
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
@@ -106,9 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                         password: password,
                       );
                       // ユーザー登録に成功した場合
-                      setState(() {
-                        infoText = "ログインに成功しました！";
-                      });
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => NextPage()));
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
