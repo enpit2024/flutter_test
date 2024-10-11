@@ -192,8 +192,8 @@ class _NextPageState extends State<NextPage> {
           String formattedTime = "${now.hour}:${now.minute}";
           // ログインしている場合，ユーザーのemailを取得
           final user = FirebaseAuth.instance.currentUser;
-          final email = user?.email;
           final uid = user?.uid;
+          final email = user?.email;
           HimaPeople newPerson =
               HimaPeople(id: '$uid', name: '$email', isHima: true);
           // Firestoreにデータを追加
