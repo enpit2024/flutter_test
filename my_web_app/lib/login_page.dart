@@ -132,9 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                       // ログアウト
                       await FirebaseAuth.instance.signOut();
                       // ユーザー登録に成功した場合
-                      setState(() {
-                        infoText = "ログアウトしました";
-                      });
+                      Navigator.of(context).pop();
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
