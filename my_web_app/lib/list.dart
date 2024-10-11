@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_web_app/model/himapeople.dart';
 import 'package:my_web_app/firebase/firestore.dart';
@@ -189,8 +190,12 @@ class _NextPageState extends State<NextPage> {
           // 例として新しいHimaPeopleオブジェクトを作成
           DateTime now = DateTime.now();
           String formattedTime = "${now.hour}:${now.minute}";
+          // ログインしている場合，ユーザーのemailを取得
+          final user = FirebaseAuth.instance.currentUser;
+          final email = user?.email;
+          final uid = user?.uid;
           HimaPeople newPerson =
-              HimaPeople(id: 'new_id', name: '$formattedTimeくん', isHima: true);
+              HimaPeople(id: '$uid', name: '$email', isHima: true);
           // Firestoreにデータを追加
           await addHimaPerson(newPerson);
 
