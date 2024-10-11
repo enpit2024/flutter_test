@@ -194,8 +194,40 @@ class _NextPageState extends State<NextPage> {
           final user = FirebaseAuth.instance.currentUser;
           final uid = user?.uid;
           final email = user?.email;
-          HimaPeople newPerson =
-              HimaPeople(id: '$uid', name: '$email', isHima: true);
+          // firestoreのusersコレクションの任意のドキュメントのコレクションの中のidにuser?.uidがあるか確認
+          // FirebaseFirestore.instance.collection("users").where("id", isEqualTo: uid).get().then((snapshot) {
+          //   for (var doc in snapshot.docs) {
+          //     print('${doc.id}: ${doc.data()['id']}, ${doc.data()['name']}, ${doc.data()['isHima']}');
+          //   }
+          // });
+
+          // FirebaseFirestore.instance.collection("users").where("id", isEqualTo: uid).get()に該当するドキュメントがあるか否か判定
+          final snapshot = await FirebaseFirestore.instance
+              .collection("users")
+              .where("id", isEqualTo: uid)
+              .get();
+
+          HimaPeople newPerson;
+
+          if (snapshot.docs.isEmpty) {
+            print('No such document!');
+            newPerson = HimaPeople(id: '$uid', name: '$email', isHima: true);
+          } else {
+            print("snapshot.docs[0].id: ${snapshot.docs[0].id}");
+            print('Document data: ${snapshot.docs[0].data()}');
+            // snapshot.docs[0].data()の中身のisHimaを取得
+            bool isHima = snapshot.docs[0].data()['isHima'];
+            // snapshot.docs[0].data()を削除
+            await FirebaseFirestore.instance
+                .collection("users")
+                .doc(snapshot.docs[0].id)
+                .delete();
+
+            print("isHima: $isHima");
+
+            newPerson = HimaPeople(id: '$uid', name: '$email', isHima: !isHima);
+          }
+
           // Firestoreにデータを追加
           await addHimaPerson(newPerson);
 
