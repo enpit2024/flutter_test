@@ -12,19 +12,21 @@ import 'package:my_web_app/login_page.dart';
 //     return const MaterialApp(
 //       title: 'Login Sample',
 //       // home: const MyHomePage(title: 'Login Sample'),
-//       home: LoginPage(),
+//       home: SignupPage(),
 //     );
 //   }
 // }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
+  @override
+  // TODO: implement build
   // メッセージ表示用
   String infoText = '';
   // 入力したメールアドレス・パスワード
@@ -65,16 +67,17 @@ class _LoginPageState extends State<LoginPage> {
                 // メッセージ表示
                 child: Text(infoText),
               ),
+
               SizedBox(
                 width: double.infinity,
-                // ログインボタン
+                // ユーザー登録ボタン
                 child: ElevatedButton(
-                  child: const Text('ログイン'),
+                  child: const Text('新規登録'),
                   onPressed: () async {
                     try {
-                      // メール/パスワードでログイン
+                      // メール/パスワードでユーザー登録
                       final FirebaseAuth auth = FirebaseAuth.instance;
-                      await auth.signInWithEmailAndPassword(
+                      await auth.createUserWithEmailAndPassword(
                         email: email,
                         password: password,
                       );
@@ -84,30 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
-                        infoText = "ログインに失敗しました：${e.toString()}";
-                      });
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              SizedBox(
-                width: double.infinity,
-                // ログアウトボタン
-                child: ElevatedButton(
-                  child: const Text('ログアウト'),
-                  onPressed: () async {
-                    try {
-                      // ログアウト
-                      await FirebaseAuth.instance.signOut();
-                      // ユーザー登録に成功した場合
-                      Navigator.of(context).pop();
-                    } catch (e) {
-                      // ユーザー登録に失敗した場合
-                      setState(() {
-                        infoText = "ログアウトに失敗しました：${e.toString()}";
+                        infoText = "登録に失敗しました：${e.toString()}";
                       });
                     }
                   },

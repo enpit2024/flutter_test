@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_web_app/list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:my_web_app/signup_page.dart';
 import 'firebase_options.dart';
 import 'package:my_web_app/login_page.dart';
 
@@ -64,6 +66,17 @@ class _MyHomePageState extends State<MyHomePage> {
               foregroundColor: Colors.purple,
             ),
             child: const Text('ログイン'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignupPage()));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[300],
+              foregroundColor: Colors.purple,
+            ),
+            child: const Text('新規登録'),
           ),
         ],
       ),
