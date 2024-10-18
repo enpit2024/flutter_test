@@ -113,6 +113,19 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
               ),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                width: double.infinity,
+                // 戻る
+                child: ElevatedButton(
+                  child: const Text('戻る'),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
             ],
           ),
         ),

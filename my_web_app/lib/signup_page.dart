@@ -81,15 +81,36 @@ class _SignupPageState extends State<SignupPage> {
                         email: email,
                         password: password,
                       );
-                      // ユーザー登録に成功した場合
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => NextPage()));
+
+                      // ユーザー登録に成功した場合、現在のユーザーを取得
+                      User? user = auth.currentUser;
+
+                      if (user != null) {
+                        // メール確認用のリンクを送信
+                        await user.sendEmailVerification();
+                        setState(() {
+                          infoText = "確認メールを送信しました。メールを確認してください。";
+                        });
+                      }
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
                         infoText = "登録に失敗しました：${e.toString()}";
                       });
                     }
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                width: double.infinity,
+                // 戻る
+                child: ElevatedButton(
+                  child: const Text('戻る'),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
                   },
                 ),
               ),
