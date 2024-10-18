@@ -210,26 +210,20 @@ class _NextPageState extends State<NextPage> {
           HimaPeople newPerson;
 
           if (snapshot.docs.isEmpty) {
-            print('No such document!');
             newPerson = HimaPeople(id: '$uid', name: '$email', isHima: true);
+            await addHimaPerson(newPerson);
           } else {
-            print("snapshot.docs[0].id: ${snapshot.docs[0].id}");
-            print('Document data: ${snapshot.docs[0].data()}');
             // snapshot.docs[0].data()の中身のisHimaを取得
             bool isHima = snapshot.docs[0].data()['isHima'];
-            // snapshot.docs[0].data()を削除
+
+            // snapshot.docs[0]のisHimaを反転
             await FirebaseFirestore.instance
                 .collection("users")
                 .doc(snapshot.docs[0].id)
-                .delete();
-
-            print("isHima: $isHima");
-
-            newPerson = HimaPeople(id: '$uid', name: '$email', isHima: !isHima);
+                .update({'isHima': !isHima});
           }
 
           // Firestoreにデータを追加
-          await addHimaPerson(newPerson);
 
           // getHimaPeople();
           get();
