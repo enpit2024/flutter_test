@@ -88,55 +88,6 @@ class _NextPageState extends State<NextPage> {
             Navigator.pop(context);
           },
         ),
-        ListTile(
-          leading: Container(
-            width: 20,
-            height: 20,
-            child: Image.asset(
-              'images/mob.png',
-              fit: BoxFit.contain,
-            ),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('ゆうき'),
-              Text('~12:00'),
-              Text('3学'),
-            ],
-          ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.person),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('ゆきと'),
-              Text('~12:00'),
-              Text('3学'),
-            ],
-          ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.person),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('いより'),
-              Text('~12:00'),
-              Text('3学'),
-            ],
-          ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
         for (var person in himaPeople)
           ListTile(
             leading: const Icon(Icons.person),
