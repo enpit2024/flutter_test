@@ -138,20 +138,21 @@ class _NextPageState extends State<NextPage> {
           },
         ),
         for (var person in himaPeople)
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(person.name),
-                Text('~00:00'),
-                Text('テスト'),
-              ],
+          if (person.isHima)
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(person.name),
+                  Text('~00:00'),
+                  Text('テスト'),
+                ],
+              ),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
       ]
 
               //     ListTile(
@@ -200,6 +201,11 @@ class _NextPageState extends State<NextPage> {
           //     print('${doc.id}: ${doc.data()['id']}, ${doc.data()['name']}, ${doc.data()['isHima']}');
           //   }
           // });
+
+          // ログインできているか確認
+          bool isLogin = FirebaseAuth.instance.currentUser != null;
+
+          print('uid: $uid');
 
           // FirebaseFirestore.instance.collection("users").where("id", isEqualTo: uid).get()に該当するドキュメントがあるか否か判定
           final snapshot = await FirebaseFirestore.instance
