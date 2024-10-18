@@ -89,23 +89,23 @@ class _MyHomePageState extends State<MyHomePage> {
           Center(
             child: Image.asset('images/ひマッチ@4x-100.jpg'),
           ),
-          Align(
-            alignment: Alignment.centerRight, // 中央の右端に配置
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0), // 右端に少し余白を追加
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => NextPage()));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[300],
-                  foregroundColor: Colors.purple,
-                ),
-                child: const Text('Button'),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.centerRight, // 中央の右端に配置
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(right: 16.0), // 右端に少し余白を追加
+          //     child: ElevatedButton(
+          //       onPressed: () {
+          //         Navigator.push(context,
+          //             MaterialPageRoute(builder: (context) => NextPage()));
+          //       },
+          //       style: ElevatedButton.styleFrom(
+          //         backgroundColor: Colors.grey[300],
+          //         foregroundColor: Colors.purple,
+          //       ),
+          //       child: const Text('Button'),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
