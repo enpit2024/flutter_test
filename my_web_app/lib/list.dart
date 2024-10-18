@@ -204,6 +204,12 @@ class _NextPageState extends State<NextPage> {
 
           // ログインできているか確認
           bool isLogin = FirebaseAuth.instance.currentUser != null;
+          print('isLogin: $isLogin');
+
+          // ログインしていなければログイン画面に遷移
+          if (!isLogin) {
+            Navigator.pop(context);
+          }
 
           print('uid: $uid');
 
