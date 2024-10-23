@@ -26,7 +26,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // ログイン済みならNextPage、未ログインならMyHomePageを表示
+      home: FirebaseAuth.instance.currentUser == null
+          ? const MyHomePage(title: 'Flutter Demo Home Page')
+          : const NextPage(),
     );
   }
 }
