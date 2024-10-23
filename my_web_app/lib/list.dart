@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,14 @@ class _NextPageState extends State<NextPage> {
     });
   }
 
+  Future<void> _refresh() async {
+    // getHimaPeople();
+    await get();
+    return Future.delayed(
+      const Duration(milliseconds: 500),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,70 +85,86 @@ class _NextPageState extends State<NextPage> {
         backgroundColor: const Color(0xFF00FF00),
       ),
       body: Center(
-          child: ListView(children: <Widget>[
-        ListTile(
-          leading: const Icon(Icons.person),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              const Text('Name'),
-              const Text('Deadline'),
-              const Text('Place'),
-            ],
+        child: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(
+            physics: const BouncingScrollPhysics(),
+            dragDevices: {
+              PointerDeviceKind.touch,
+              PointerDeviceKind.mouse,
+              PointerDeviceKind.trackpad
+            },
           ),
-          // onTap: () {
-          //   Navigator.pop(context);
-          // },
+          child: RefreshIndicator(
+            onRefresh: _refresh,
+            child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  // ListTile(
+                  //   leading: const Icon(Icons.person),
+                  //   title: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //     children: <Widget>[
+                  //       const Text('Name'),
+                  //       const Text('Deadline'),
+                  //       const Text('Place'),
+                  //     ],
+                  //   ),
+                  //   // onTap: () {
+                  //   //   Navigator.pop(context);
+                  //   // },
+                  // ),
+                  for (var person in himaPeople)
+                    if (person.isHima)
+                      ListTile(
+                        leading: const Icon(Icons.person),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(person.name ?? person.mail),
+                            Text('~00:00'),
+                            Text('テスト'),
+                          ],
+                        ),
+                        // onTap: () {
+                        //   Navigator.pop(context);
+                        // },
+                      ),
+                ]
+
+                //     ListTile(
+                //       leading: const Icon(Icons.person),
+                //       title: const Text('ひろと'),
+                //       subtitle: Row(children: <Widget>[
+                //         Text('12:00'),
+                //         SizedBox(width: 10),
+                //         Text('3学'),
+                //       ]),
+                //       onTap: () {
+                //         Navigator.pop(context);
+                //       },
+                //     ),
+                //     ListTile(
+                //       leading: const Icon(Icons.person),
+                //       title: const Text('いより'),
+                //       onTap: () {
+                //         Navigator.pop(context);
+                //       },
+                //     ),
+                //   ],
+                // ))
+
+                // body: Center(
+                //   child: ElevatedButton(
+                //     onPressed: () {
+                //       Navigator.pop(context);
+                //     },
+                //     child: const Text('Go back!'),
+                //   ),
+                // ),
+                ),
+          ),
         ),
-        for (var person in himaPeople)
-          if (person.isHima)
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(person.name ?? person.mail),
-                  Text('~00:00'),
-                  Text('テスト'),
-                ],
-              ),
-              // onTap: () {
-              //   Navigator.pop(context);
-              // },
-            ),
-      ]
-
-              //     ListTile(
-              //       leading: const Icon(Icons.person),
-              //       title: const Text('ひろと'),
-              //       subtitle: Row(children: <Widget>[
-              //         Text('12:00'),
-              //         SizedBox(width: 10),
-              //         Text('3学'),
-              //       ]),
-              //       onTap: () {
-              //         Navigator.pop(context);
-              //       },
-              //     ),
-              //     ListTile(
-              //       leading: const Icon(Icons.person),
-              //       title: const Text('いより'),
-              //       onTap: () {
-              //         Navigator.pop(context);
-              //       },
-              //     ),
-              //   ],
-              // ))
-
-              // body: Center(
-              //   child: ElevatedButton(
-              //     onPressed: () {
-              //       Navigator.pop(context);
-              //     },
-              //     child: const Text('Go back!'),
-              //   ),
-              // ),
-              )),
+      ),
       floatingActionButton: FloatingActionButton.large(
         onPressed: () async {
           // 例として新しいHimaPeopleオブジェクトを作成
