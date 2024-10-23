@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_web_app/main.dart';
 import 'package:my_web_app/model/himapeople.dart';
 import 'package:my_web_app/firebase/firestore.dart';
 import 'package:my_web_app/name_reg.dart';
@@ -86,9 +87,9 @@ class _NextPageState extends State<NextPage> {
               const Text('Place'),
             ],
           ),
-          onTap: () {
-            Navigator.pop(context);
-          },
+          // onTap: () {
+          //   Navigator.pop(context);
+          // },
         ),
         for (var person in himaPeople)
           if (person.isHima)
@@ -102,9 +103,9 @@ class _NextPageState extends State<NextPage> {
                   Text('テスト'),
                 ],
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              // onTap: () {
+              //   Navigator.pop(context);
+              // },
             ),
       ]
 
@@ -161,7 +162,12 @@ class _NextPageState extends State<NextPage> {
 
           // ログインしていなければログイン画面に遷移
           if (!isLogin) {
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            // MyHomePageに遷移
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MyHomePage()),
+            );
           }
 
           print('uid: $uid');

@@ -29,16 +29,16 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // ログイン済みならNextPage、未ログインならMyHomePageを表示
       home: FirebaseAuth.instance.currentUser == null
-          ? const MyHomePage(title: 'Flutter Demo Home Page')
+          ? const MyHomePage()
           : const NextPage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key});
 
-  final String title;
+  final String title = "ひマッチ";
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
