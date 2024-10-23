@@ -19,6 +19,8 @@ class _NextPageState extends State<NextPage> {
   List<HimaPeople> himaPeople = [];
   bool isLoading = false;
   late String name;
+  bool botten_on_off = false;
+  String botten_text = "↻";
 
   @override
   void initState() {
@@ -113,7 +115,8 @@ class _NextPageState extends State<NextPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.large(
-        backgroundColor: Colors.lightBlue, // Light blue color
+        backgroundColor:
+            botten_on_off ? Colors.lightBlue : Colors.grey, // Light blue color
         elevation: 8.0,
         shape: const CircleBorder(), // Ensures a perfect circle shape
         onPressed: () async {
@@ -156,12 +159,18 @@ class _NextPageState extends State<NextPage> {
                 .collection("users")
                 .doc(snapshot.docs[0].id)
                 .update({'isHima': !isHima});
+
+            //snapshot.docs[0].data()['isHima'];がtureならon_offに"暇"を代入
+            setState(() {
+              botten_on_off = !isHima;
+              botten_on_off ? botten_text = "暇" : botten_text = "忙";
+            });
           }
 
           get();
         },
-        child: const Text(
-          '暇',
+        child: Text(
+          botten_text,
           style: TextStyle(
             fontSize: 36, // Increased font size
             fontWeight: FontWeight.bold, // Optional: makes the text bolder
