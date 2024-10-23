@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HimaPeople {
   String id;
-  String name;
+  String? name;
   bool isHima;
   String mail;
 
@@ -16,10 +16,11 @@ class HimaPeople {
   factory HimaPeople.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data()!;
     return HimaPeople(
-        id: data['id'],
-        name: data['name'],
-        isHima: data['isHima'],
-        mail: data['mail']);
+      id: data['id'] ?? "",
+      name: data['name'] ?? "",
+      isHima: data['isHima'] ?? false,
+      mail: data['mail'] ?? "",
+    );
   }
 
   Map<String, dynamic> toFirestore() {
