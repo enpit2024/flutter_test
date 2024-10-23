@@ -84,17 +84,17 @@ class _NextPageState extends State<NextPage> {
             child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  // ListTile(
-                  //   leading: const Icon(Icons.person),
-                  //   title: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //     children: <Widget>[
-                  //       const Text('Name'),
-                  //       const Text('Deadline'),
-                  //       const Text('Place'),
-                  //     ],
-                  //   ),
-                  // ),
+                  const ListTile(
+                    leading: Icon(Icons.person),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text('Name'),
+                        Text('Deadline'),
+                        Text('Place'),
+                      ],
+                    ),
+                  ),
                   for (var person in himaPeople)
                     if (person.isHima)
                       ListTile(
@@ -127,7 +127,6 @@ class _NextPageState extends State<NextPage> {
 
           // ログインできているか確認
           bool isLogin = FirebaseAuth.instance.currentUser != null;
-          print('isLogin: $isLogin');
 
           // ログインしていなければログイン画面に遷移
           if (!isLogin) {
@@ -136,8 +135,6 @@ class _NextPageState extends State<NextPage> {
               MaterialPageRoute(builder: (context) => const MyHomePage()),
             );
           }
-
-          print('uid: $uid');
 
           final snapshot = await FirebaseFirestore.instance
               .collection("users")
