@@ -27,20 +27,6 @@ class _NextPageState extends State<NextPage> {
     get();
   }
 
-  // Future getHimaPeople() async {
-  //   setState(() => isLoading = true);
-  //   himapeopleSnapshot = await FirestoreHelper.instance.selectAllHimaPeople(
-  //       "Ian4IDN4ryYtbv9h4igNeUdZQkB3"); //←users配下のcatsコレクションのドキュメントを全件読み込む
-  //   himaPeople = himapeopleSnapshot //←受け取ったDocumentsnapshotの値をListに変換する
-  //       .map((doc) => HimaPeople(
-  //             id: doc['id'],
-  //             name: doc['name'],
-  //             isHima: doc['isHima'],
-  //           ))
-  //       .toList();
-  //   setState(() => isLoading = false);
-  // }
-
   Future getHimaPeople() async {
     setState(() => isLoading = true);
     himaPeople = await FirestoreHelper.instance
@@ -69,7 +55,6 @@ class _NextPageState extends State<NextPage> {
   }
 
   Future<void> _refresh() async {
-    // getHimaPeople();
     await get();
     return Future.delayed(
       const Duration(milliseconds: 500),
@@ -109,9 +94,6 @@ class _NextPageState extends State<NextPage> {
                   //       const Text('Place'),
                   //     ],
                   //   ),
-                  //   // onTap: () {
-                  //   //   Navigator.pop(context);
-                  //   // },
                   // ),
                   for (var person in himaPeople)
                     if (person.isHima)
@@ -125,61 +107,20 @@ class _NextPageState extends State<NextPage> {
                             Text('テスト'),
                           ],
                         ),
-                        // onTap: () {
-                        //   Navigator.pop(context);
-                        // },
                       ),
-                ]
-
-                //     ListTile(
-                //       leading: const Icon(Icons.person),
-                //       title: const Text('ひろと'),
-                //       subtitle: Row(children: <Widget>[
-                //         Text('12:00'),
-                //         SizedBox(width: 10),
-                //         Text('3学'),
-                //       ]),
-                //       onTap: () {
-                //         Navigator.pop(context);
-                //       },
-                //     ),
-                //     ListTile(
-                //       leading: const Icon(Icons.person),
-                //       title: const Text('いより'),
-                //       onTap: () {
-                //         Navigator.pop(context);
-                //       },
-                //     ),
-                //   ],
-                // ))
-
-                // body: Center(
-                //   child: ElevatedButton(
-                //     onPressed: () {
-                //       Navigator.pop(context);
-                //     },
-                //     child: const Text('Go back!'),
-                //   ),
-                // ),
-                ),
+                ]),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton.large(
         onPressed: () async {
-          // 例として新しいHimaPeopleオブジェクトを作成
           DateTime now = DateTime.now();
           String formattedTime = "${now.hour}:${now.minute}";
-          // ログインしている場合，ユーザーのemailを取得
+
+          // ユーザー情報を取得
           final user = FirebaseAuth.instance.currentUser;
           final uid = user?.uid;
           final email = user?.email;
-          // firestoreのusersコレクションの任意のドキュメントのコレクションの中のidにuser?.uidがあるか確認
-          // FirebaseFirestore.instance.collection("users").where("id", isEqualTo: uid).get().then((snapshot) {
-          //   for (var doc in snapshot.docs) {
-          //     print('${doc.id}: ${doc.data()['id']}, ${doc.data()['name']}, ${doc.data()['isHima']}');
-          //   }
-          // });
 
           // ログインできているか確認
           bool isLogin = FirebaseAuth.instance.currentUser != null;
@@ -187,8 +128,6 @@ class _NextPageState extends State<NextPage> {
 
           // ログインしていなければログイン画面に遷移
           if (!isLogin) {
-            // Navigator.pop(context);
-            // MyHomePageに遷移
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const MyHomePage()),
@@ -197,7 +136,6 @@ class _NextPageState extends State<NextPage> {
 
           print('uid: $uid');
 
-          // FirebaseFirestore.instance.collection("users").where("id", isEqualTo: uid).get()に該当するドキュメントがあるか否か判定
           final snapshot = await FirebaseFirestore.instance
               .collection("users")
               .where("id", isEqualTo: uid)
@@ -220,9 +158,6 @@ class _NextPageState extends State<NextPage> {
                 .update({'isHima': !isHima});
           }
 
-          // Firestoreにデータを追加
-
-          // getHimaPeople();
           get();
         },
         child: Text(
