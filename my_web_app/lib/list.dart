@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_web_app/model/himapeople.dart';
 import 'package:my_web_app/firebase/firestore.dart';
+import 'package:my_web_app/name_reg.dart';
 
 class NextPage extends StatefulWidget {
   const NextPage({super.key});
@@ -15,6 +16,7 @@ class _NextPageState extends State<NextPage> {
   List<HimaPeople> himapeopleSnapshot = [];
   List<HimaPeople> himaPeople = [];
   bool isLoading = false;
+  late String name;
 
   @override
   void initState() {
@@ -95,7 +97,7 @@ class _NextPageState extends State<NextPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Text(person.name),
+                  Text(person.name? ),
                   Text('~00:00'),
                   Text('テスト'),
                 ],
@@ -173,7 +175,8 @@ class _NextPageState extends State<NextPage> {
           HimaPeople newPerson;
 
           if (snapshot.docs.isEmpty) {
-            newPerson = HimaPeople(id: '$uid', name: '$email', isHima: true);
+            newPerson = HimaPeople(
+                id: '$uid', mail: '$email', isHima: true, name: '$name');
             await addHimaPerson(newPerson);
           } else {
             // snapshot.docs[0].data()の中身のisHimaを取得
