@@ -113,6 +113,9 @@ class _NextPageState extends State<NextPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.large(
+        backgroundColor: Colors.lightBlue, // Light blue color
+        elevation: 8.0,
+        shape: const CircleBorder(), // Ensures a perfect circle shape
         onPressed: () async {
           DateTime now = DateTime.now();
           String formattedTime = "${now.hour}:${now.minute}";
@@ -160,7 +163,7 @@ class _NextPageState extends State<NextPage> {
 
           get();
         },
-        child: Text(
+        child: const Text(
           '暇',
           style: TextStyle(
             fontSize: 36, // Increased font size
@@ -168,9 +171,6 @@ class _NextPageState extends State<NextPage> {
             color: Colors.white, // Ensures good contrast with the background
           ),
         ),
-        backgroundColor: Colors.lightBlue, // Light blue color
-        elevation: 8.0,
-        shape: CircleBorder(), // Ensures a perfect circle shape
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
