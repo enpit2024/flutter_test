@@ -102,7 +102,7 @@ class _NextPageState extends State<NextPage> {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text(person.name ?? person.mail),
+                            Text(person.name ?? "No Name"),
                             Text('~00:00'),
                             Text('テスト'),
                           ],
