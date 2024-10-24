@@ -66,7 +66,7 @@ class _NameRegState extends State<NameReg> {
       appBar: AppBar(
         title: const Text('名前登録!!'),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(
           children: [
