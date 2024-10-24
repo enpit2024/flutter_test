@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                       );
                       // ユーザー登録に成功した場合
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => NextPage()));
+                          MaterialPageRoute(builder: (context) => const NextPage()));
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
