@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_web_app/list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:my_web_app/name_reg.dart';
 import 'firebase_options.dart';
 import 'package:my_web_app/login_page.dart';
 // class LoginSample extends StatelessWidget {
@@ -61,6 +62,16 @@ class _SignupPageState extends State<SignupPage> {
                   });
                 },
               ),
+              // // 名前
+              // TextFormField(
+              //   decoration: const InputDecoration(labelText: '名前'),
+              //   obscureText: true,
+              //   onChanged: (String value) {
+              //     setState(() {
+              //       password = value;
+              //     });
+              //   },
+              // ),
 
               Container(
                 padding: const EdgeInsets.all(8),
@@ -92,6 +103,8 @@ class _SignupPageState extends State<SignupPage> {
                           infoText = "確認メールを送信しました。メールを確認してください。";
                         });
                       }
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const NameReg()));
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
