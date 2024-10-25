@@ -21,6 +21,7 @@ class _NextPageState extends State<NextPage> {
   late String name;
 
   bool _isHima = false;
+  String myperson = "";
 
   // isHimaのセッターを定義
   set isHima(bool value) {
@@ -120,8 +121,36 @@ class _NextPageState extends State<NextPage> {
                       ],
                     ),
                   ),
+                  if (_isHima)
+                    Container(
+                      color: Colors.yellow[100], // Background color
+                      child: ListTile(
+                        leading: const Icon(Icons.person),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(himaPeople
+                                    .firstWhere(
+                                        (person) =>
+                                            person.id ==
+                                            FirebaseAuth
+                                                .instance.currentUser?.uid,
+                                        orElse: () => HimaPeople(
+                                            id: '',
+                                            mail: '',
+                                            isHima: false,
+                                            name: 'No Name'))
+                                    .name ??
+                                "No Name"),
+                            const Text('~00:00'),
+                            const Text('テスト')
+                          ],
+                        ),
+                      ),
+                    ),
                   for (var person in himaPeople)
-                    if (person.isHima)
+                    if (person.isHima &&
+                        person.id != FirebaseAuth.instance.currentUser?.uid)
                       ListTile(
                         leading: const Icon(Icons.person),
                         title: Row(
@@ -138,7 +167,9 @@ class _NextPageState extends State<NextPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.large(
-        backgroundColor: _isHima ? const Color.fromARGB(255, 86, 21, 89) : const Color.fromARGB(255, 246, 154, 15), // Light blue color
+        backgroundColor: _isHima
+            ? const Color.fromARGB(255, 86, 21, 89)
+            : const Color.fromARGB(255, 246, 154, 15), // Light blue color
         elevation: 8.0,
         shape: const CircleBorder(), // Ensures a perfect circle shape
         onPressed: () async {
