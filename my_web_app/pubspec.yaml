@@ -65,6 +65,12 @@ flutter:
   - images/mob.png
   - images/ひマッチ@4x.png
 
+  fonts:
+    - family: pupupu-free  # フォントファミリー名（自由に設定可能）
+      fonts:
+        - asset: assets/fonts/pupupu-free.ttf
+          # フォントファイルのパス
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

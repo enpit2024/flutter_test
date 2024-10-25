@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // ログイン済みならNextPage、未ログインならMyHomePageを表示
       home: FirebaseAuth.instance.currentUser == null
           ? const MyHomePage()
@@ -58,11 +57,40 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            fontFamily: 'pupupu-free',  // 正しいフォントファミリー名を指定
+            fontSize: 60,
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[300],
+              foregroundColor: Colors.purple,
+            ),
+            child: const Text('ログイン'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const SignupPage()));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[300],
+              foregroundColor: Colors.purple,
+            ),
+            child: const Text('新規登録'),
+          ),
+        ],
       ),
       body: Stack(
         children: [
-          // Container to set the background color
           Container(
             color: Colors.white, // Set background color here
           ),
