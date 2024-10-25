@@ -63,6 +63,7 @@ flutter:
   assets:
   - images/ひマッチ@4x-100.jpg
   - images/mob.png
+  - images/ひマッチ@4x.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
