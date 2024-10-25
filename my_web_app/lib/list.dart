@@ -20,11 +20,36 @@ class _NextPageState extends State<NextPage> {
   bool isLoading = false;
   late String name;
 
+  bool _isHima = false;
+
+  // isHimaのセッターを定義
+  set isHima(bool value) {
+    setState(() {
+      _isHima = value;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     // getHimaPeople();
+    _initializeAsync();
     get();
+  }
+
+  Future<void> _initializeAsync() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+    final snapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("id", isEqualTo: uid)
+        .get();
+
+    bool isHima = snapshot.docs[0].data()['isHima'];
+
+    setState(() {
+      _isHima = isHima;
+    });
   }
 
   Future getHimaPeople() async {
@@ -113,7 +138,7 @@ class _NextPageState extends State<NextPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.large(
-        backgroundColor: Colors.lightBlue, // Light blue color
+        backgroundColor: _isHima ? const Color.fromARGB(255, 86, 21, 89) : const Color.fromARGB(255, 246, 154, 15), // Light blue color
         elevation: 8.0,
         shape: const CircleBorder(), // Ensures a perfect circle shape
         onPressed: () async {
@@ -142,6 +167,7 @@ class _NextPageState extends State<NextPage> {
               .get();
 
           HimaPeople newPerson;
+          bool isHima = true;
 
           if (snapshot.docs.isEmpty) {
             newPerson = HimaPeople(
@@ -149,7 +175,7 @@ class _NextPageState extends State<NextPage> {
             await addHimaPerson(newPerson);
           } else {
             // snapshot.docs[0].data()の中身のisHimaを取得
-            bool isHima = snapshot.docs[0].data()['isHima'];
+            isHima = snapshot.docs[0].data()['isHima'];
 
             // snapshot.docs[0]のisHimaを反転
             await FirebaseFirestore.instance
@@ -158,11 +184,15 @@ class _NextPageState extends State<NextPage> {
                 .update({'isHima': !isHima});
           }
 
+          setState(() {
+            _isHima = !isHima;
+          });
+
           get();
         },
-        child: const Text(
-          '暇',
-          style: TextStyle(
+        child: Text(
+          _isHima ? '忙' : '暇',
+          style: const TextStyle(
             fontSize: 36, // Increased font size
             fontWeight: FontWeight.bold, // Optional: makes the text bolder
             color: Colors.white, // Ensures good contrast with the background
