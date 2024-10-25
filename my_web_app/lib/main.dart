@@ -23,10 +23,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // ログイン済みならNextPage、未ログインならMyHomePageを表示
       home: FirebaseAuth.instance.currentUser == null
           ? const MyHomePage()
@@ -58,41 +57,81 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()));
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey[300],
-              foregroundColor: Colors.purple,
-            ),
-            child: const Text('ログイン'),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            fontFamily: 'pupupu-free', // 正しいフォントファミリー名を指定
+            fontSize: 60,
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const SignupPage()));
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey[300],
-              foregroundColor: Colors.purple,
-            ),
-            child: const Text('新規登録'),
-          ),
-        ],
+        ),
       ),
       body: Stack(
         children: [
-          // Container to set the background color
           Container(
             color: Colors.white, // Set background color here
           ),
-          Center(
-            child: Image.asset('images/ひマッチ@4x-100.jpg'),
-          ),
+          Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Image.asset('images/ひマッチ@4x.png'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[300],
+                    foregroundColor: Colors.lightBlue,
+                  ),
+                  child: const Text('ログイン'),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignupPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[300],
+                    foregroundColor: Colors.lightBlue,
+                  ),
+                  child: const Text('新規登録'),
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[300],
+                    foregroundColor: Colors.lightBlue,
+                  ),
+                  child: const Text('ログアウト'),
+                  onPressed: () async {
+                    try {
+                      // ログアウト
+                      await FirebaseAuth.instance.signOut();
+                      // ユーザー登録に成功した場合
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      // ユーザー登録に失敗した場合
+                      setState(() {
+                        var infoText = "ログアウトに失敗しました：${e.toString()}";
+                      });
+                    }
+                  },
+                ),
+              ],
+            )
+          ])
+          // ログアウトボタン
+
           // Align(
           //   alignment: Alignment.centerRight, // 中央の右端に配置
           //   child: Padding(

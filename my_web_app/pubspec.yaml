@@ -61,8 +61,13 @@ flutter:
   uses-material-design: true
 
   assets:
-  - images/ひマッチ@4x-100.jpg
-  - images/mob.png
+  - images/
+
+  fonts:
+    - family: pupupu-free  # フォントファミリー名（自由に設定可能）
+      fonts:
+        - asset: assets/fonts/pupupu-free.ttf
+          # フォントファイルのパス
 
   # To add assets to your application, add an assets section, like this:
   # assets:
