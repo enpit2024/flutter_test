@@ -104,7 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                         });
                       }
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => NameReg()));
+                          MaterialPageRoute(builder: (context) => const NameReg()));
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {

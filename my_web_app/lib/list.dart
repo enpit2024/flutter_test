@@ -105,8 +105,8 @@ class _NextPageState extends State<NextPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Text(person.name ?? "No Name"),
-                            Text('~00:00'),
-                            Text('テスト'),
+                            const Text('~00:00'),
+                            const Text('テスト'),
                           ],
                         ),
                       ),
@@ -148,7 +148,7 @@ class _NextPageState extends State<NextPage> {
 
           if (snapshot.docs.isEmpty) {
             newPerson = HimaPeople(
-                id: '$uid', mail: '$email', isHima: true, name: '$name');
+                id: '$uid', mail: '$email', isHima: true, name: name);
             await addHimaPerson(newPerson);
           } else {
             // snapshot.docs[0].data()の中身のisHimaを取得

@@ -64,14 +64,14 @@ class _NameRegState extends State<NameReg> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('名前登録!!'),
+        title: const Text('名前登録!!'),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(
           children: [
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: '名前',
               ),
               onChanged: (String value) {
@@ -81,7 +81,7 @@ class _NameRegState extends State<NameReg> {
               },
             ),
             ElevatedButton(
-              child: Text('登録'),
+              child: const Text('登録'),
               onPressed: () async {
                 final user = FirebaseAuth.instance.currentUser;
                 final uid = user?.uid;
@@ -108,7 +108,7 @@ class _NameRegState extends State<NameReg> {
 
                 if (snapshot.docs.isEmpty) {
                   newPerson = HimaPeople(
-                      id: '$uid', mail: '$email', isHima: true, name: '$name');
+                      id: '$uid', mail: '$email', isHima: true, name: name);
                   await addHimaPerson(newPerson);
                 } else {
                   // snapshot.docs[0].data()の中身のisHimaを取得
@@ -126,7 +126,7 @@ class _NameRegState extends State<NameReg> {
                 // getHimaPeople();
                 get();
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => NextPage()));
+                    MaterialPageRoute(builder: (context) => const NextPage()));
 // await Firestore.instance
                 // TODO: 新規登録
               },
