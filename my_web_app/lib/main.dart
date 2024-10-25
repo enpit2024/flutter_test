@@ -60,34 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           widget.title,
           style: TextStyle(
-            fontFamily: 'pupupu-free',  // 正しいフォントファミリー名を指定
+            fontFamily: 'pupupu-free', // 正しいフォントファミリー名を指定
             fontSize: 60,
           ),
         ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()));
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey[300],
-              foregroundColor: Colors.purple,
-            ),
-            child: const Text('ログイン'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const SignupPage()));
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey[300],
-              foregroundColor: Colors.purple,
-            ),
-            child: const Text('新規登録'),
-          ),
-        ],
       ),
       body: Stack(
         children: [
