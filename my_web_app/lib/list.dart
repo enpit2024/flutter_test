@@ -93,7 +93,30 @@ class _NextPageState extends State<NextPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('暇な人リスト'),
-        backgroundColor: const Color(0xFF00FF00),
+        backgroundColor: Colors.lightBlue,
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[300],
+              foregroundColor: Colors.lightBlue,
+            ),
+            child: const Text('ログアウト'),
+            onPressed: () async {
+              try {
+                // ログアウト
+                await FirebaseAuth.instance.signOut();
+                // ユーザー登録に成功した場合
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MyApp()));
+              } catch (e) {
+                // ユーザー登録に失敗した場合
+                setState(() {
+                  var infoText = "ログアウトに失敗しました：${e.toString()}";
+                });
+              }
+            },
+          ),
+        ],
       ),
       body: Center(
         child: ScrollConfiguration(
