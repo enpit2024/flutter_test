@@ -6,6 +6,7 @@ import 'package:my_web_app/main.dart';
 import 'package:my_web_app/model/himapeople.dart';
 import 'package:my_web_app/firebase/firestore.dart';
 import 'package:my_web_app/name_reg.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class NextPage extends StatefulWidget {
   const NextPage({super.key});
@@ -23,17 +24,11 @@ class _NextPageState extends State<NextPage> {
   bool _isHima = false;
   String myperson = "";
 
-  // isHimaのセッターを定義
-  set isHima(bool value) {
-    setState(() {
-      _isHima = value;
-    });
-  }
+  bool _switchValue = false; // トグルの状態を保持する変数
 
   @override
   void initState() {
     super.initState();
-    // getHimaPeople();
     _initializeAsync();
     get();
   }
@@ -60,7 +55,6 @@ class _NextPageState extends State<NextPage> {
     setState(() => isLoading = false);
   }
 
-  // usersコレクションのドキュメントを全件読み込む
   Future get() async {
     final snapshot = await FirebaseFirestore.instance.collection('users').get();
     final himaPeople = snapshot.docs
@@ -87,6 +81,47 @@ class _NextPageState extends State<NextPage> {
     );
   }
 
+  void _toggleHimaStatus(int index) async {
+    DateTime now = DateTime.now();
+    String formattedTime = "${now.hour}:${now.minute}";
+    final user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+    final email = user?.email;
+    bool isLogin = FirebaseAuth.instance.currentUser != null;
+    if (!isLogin) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MyHomePage()),
+      );
+    }
+    final snapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("id", isEqualTo: uid)
+        .get();
+    HimaPeople newPerson;
+    bool isHima = true;
+    if (snapshot.docs.isEmpty) {
+      newPerson = HimaPeople(
+          id: '$uid',
+          mail: '$email',
+          isHima: true,
+          name: name,
+          deadline: "12:34",
+          place: "春日");
+      await addHimaPerson(newPerson);
+    } else {
+      isHima = snapshot.docs[0].data()['isHima'];
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(snapshot.docs[0].id)
+          .update({'isHima': !isHima});
+    }
+    setState(() {
+      _isHima = !isHima;
+    });
+    get();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,13 +138,10 @@ class _NextPageState extends State<NextPage> {
             child: const Text('ログアウト'),
             onPressed: () async {
               try {
-                // ログアウト
                 await FirebaseAuth.instance.signOut();
-                // ユーザー登録に成功した場合
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const MyApp()));
               } catch (e) {
-                // ユーザー登録に失敗した場合
                 setState(() {
                   var infoText = "ログアウトに失敗しました：${e.toString()}";
                 });
@@ -146,27 +178,66 @@ class _NextPageState extends State<NextPage> {
                   ),
                   if (_isHima)
                     Container(
-                      color: Colors.yellow[100], // Background color
+                      color: Colors.yellow[100],
                       child: ListTile(
                         leading: const Icon(Icons.person),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text(himaPeople
-                                    .firstWhere(
-                                        (person) =>
-                                            person.id ==
-                                            FirebaseAuth
-                                                .instance.currentUser?.uid,
-                                        orElse: () => HimaPeople(
-                                            id: '',
-                                            mail: '',
-                                            isHima: false,
-                                            name: 'No Name'))
-                                    .name ??
-                                "No Name"),
-                            const Text('~00:00'),
-                            const Text('テスト')
+                            Text(
+                              himaPeople
+                                      .firstWhere(
+                                          (person) =>
+                                              person.id ==
+                                              FirebaseAuth
+                                                  .instance.currentUser?.uid,
+                                          orElse: () => HimaPeople(
+                                                id: '',
+                                                mail: '',
+                                                isHima: false,
+                                                name: 'No Name',
+                                                deadline: '',
+                                                place: '',
+                                              ))
+                                      .name ??
+                                  "No Name",
+                            ),
+                            Text(
+                              himaPeople
+                                      .firstWhere(
+                                          (person) =>
+                                              person.id ==
+                                              FirebaseAuth
+                                                  .instance.currentUser?.uid,
+                                          orElse: () => HimaPeople(
+                                                id: '',
+                                                mail: '',
+                                                isHima: false,
+                                                name: 'No Name',
+                                                deadline: '',
+                                                place: '',
+                                              ))
+                                      .deadline ??
+                                  "No LIMIT",
+                            ),
+                            Text(
+                              himaPeople
+                                      .firstWhere(
+                                          (person) =>
+                                              person.id ==
+                                              FirebaseAuth
+                                                  .instance.currentUser?.uid,
+                                          orElse: () => HimaPeople(
+                                                id: '',
+                                                mail: '',
+                                                isHima: false,
+                                                name: 'No Name',
+                                                deadline: '',
+                                                place: '',
+                                              ))
+                                      .place ??
+                                  "Nowhere",
+                            ),
                           ],
                         ),
                       ),
@@ -180,8 +251,8 @@ class _NextPageState extends State<NextPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Text(person.name ?? "No Name"),
-                            const Text('~00:00'),
-                            const Text('テスト'),
+                            Text(person.deadline ?? "No LIMIT"),
+                            Text(person.place ?? "Nowhere"),
                           ],
                         ),
                       ),
@@ -189,83 +260,90 @@ class _NextPageState extends State<NextPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.large(
-        backgroundColor: _isHima
-            ? const Color.fromARGB(255, 86, 21, 89)
-            : const Color.fromARGB(255, 246, 154, 15), // Light blue color
-        elevation: 8.0,
-        shape: const CircleBorder(), // Ensures a perfect circle shape
-        onPressed: () async {
-          DateTime now = DateTime.now();
-          String formattedTime = "${now.hour}:${now.minute}";
-
-          // ユーザー情報を取得
-          final user = FirebaseAuth.instance.currentUser;
-          final uid = user?.uid;
-          final email = user?.email;
-
-          // ログインできているか確認
-          bool isLogin = FirebaseAuth.instance.currentUser != null;
-
-          // ログインしていなければログイン画面に遷移
-          if (!isLogin) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
-            );
-          }
-
-          final snapshot = await FirebaseFirestore.instance
-              .collection("users")
-              .where("id", isEqualTo: uid)
-              .get();
-
-          HimaPeople newPerson;
-          bool isHima = true;
-
-          if (snapshot.docs.isEmpty) {
-            newPerson = HimaPeople(
-                id: '$uid', mail: '$email', isHima: true, name: name);
-            await addHimaPerson(newPerson);
-          } else {
-            // snapshot.docs[0].data()の中身のisHimaを取得
-            isHima = snapshot.docs[0].data()['isHima'];
-
-            // snapshot.docs[0]のisHimaを反転
-            await FirebaseFirestore.instance
-                .collection("users")
-                .doc(snapshot.docs[0].id)
-                .update({'isHima': !isHima});
-          }
-
-          setState(() {
-            _isHima = !isHima;
-          });
-
-          get();
-        },
-        child: Text(
-          _isHima ? '忙' : '暇',
-          style: const TextStyle(
-            fontSize: 36, // Increased font size
-            fontWeight: FontWeight.bold, // Optional: makes the text bolder
-            color: Colors.white, // Ensures good contrast with the background
+      bottomNavigationBar: BottomAppBar(
+        child: Center(
+          child: ToggleSwitch(
+            initialLabelIndex: _isHima ? 1 : 0,
+            totalSwitches: 2,
+            labels: ['忙', '暇'],
+            onToggle: (index) {
+              _toggleHimaStatus(index!);
+            },
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Friends',
-          ),
-        ],
-      ),
+      // floatingActionButton: FloatingActionButton.large(
+      //   backgroundColor: _isHima
+      //       ? const Color.fromARGB(255, 86, 21, 89)
+      //       : const Color.fromARGB(255, 246, 154, 15), // Light blue color
+      //   elevation: 8.0,
+      //   shape: const CircleBorder(), // Ensures a perfect circle shape
+      //   onPressed: () async {
+      //     DateTime now = DateTime.now();
+      //     String formattedTime = "${now.hour}:${now.minute}";
+
+      //     // ユーザー情報を取得
+      //     final user = FirebaseAuth.instance.currentUser;
+      //     final uid = user?.uid;
+      //     final email = user?.email;
+
+      //     // ログインできているか確認
+      //     bool isLogin = FirebaseAuth.instance.currentUser != null;
+
+      //     // ログインしていなければログイン画面に遷移
+      //     if (!isLogin) {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => const MyHomePage()),
+      //       );
+      //     }
+
+      //     final snapshot = await FirebaseFirestore.instance
+      //         .collection("users")
+      //         .where("id", isEqualTo: uid)
+      //         .get();
+
+      //     HimaPeople newPerson;
+      //     bool isHima = true;
+
+      //     if (snapshot.docs.isEmpty) {
+      //       newPerson = HimaPeople(
+      //         id: '$uid',
+      //         mail: '$email',
+      //         isHima: true,
+      //         name: name,
+      //         deadline: "12:34",
+      //         place: "春日",
+      //       );
+      //       await addHimaPerson(newPerson);
+      //     } else {
+      //       // snapshot.docs[0].data()の中身のisHimaを取得
+      //       isHima = snapshot.docs[0].data()['isHima'];
+
+      //       // snapshot.docs[0]のisHimaを反転
+      //       await FirebaseFirestore.instance
+      //           .collection("users")
+      //           .doc(snapshot.docs[0].id)
+      //           .update({'isHima': !isHima});
+      //     }
+
+      //     setState(() {
+      //       _isHima = !isHima;
+      //     });
+
+      //     get();
+      //   },
+      //   child: Text(
+      //     _isHima ? '忙' : '暇',
+      //     style: const TextStyle(
+      //       fontSize: 36, // Increased font size
+      //       fontWeight: FontWeight.bold, // Optional: makes the text bolder
+      //       color: Colors.white, // Ensures good contrast with the background
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
+
+//toggle
