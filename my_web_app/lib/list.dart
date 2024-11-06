@@ -159,10 +159,13 @@ class _NextPageState extends State<NextPage> {
                                             FirebaseAuth
                                                 .instance.currentUser?.uid,
                                         orElse: () => HimaPeople(
-                                            id: '',
-                                            mail: '',
-                                            isHima: false,
-                                            name: 'No Name'))
+                                              id: '',
+                                              mail: '',
+                                              isHima: false,
+                                              name: 'No Name',
+                                              deadline: '',
+                                              place: '',
+                                            ))
                                     .name ??
                                 "No Name"),
                             const Text('~00:00'),
@@ -180,8 +183,8 @@ class _NextPageState extends State<NextPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Text(person.name ?? "No Name"),
-                            const Text('~00:00'),
-                            const Text('テスト'),
+                            Text(person.deadline ?? "No LIMIT"),
+                            Text(person.place ?? "Nowhere"),
                           ],
                         ),
                       ),
@@ -225,7 +228,13 @@ class _NextPageState extends State<NextPage> {
 
           if (snapshot.docs.isEmpty) {
             newPerson = HimaPeople(
-                id: '$uid', mail: '$email', isHima: true, name: name);
+              id: '$uid',
+              mail: '$email',
+              isHima: true,
+              name: name,
+              deadline: "12:34",
+              place: "春日",
+            );
             await addHimaPerson(newPerson);
           } else {
             // snapshot.docs[0].data()の中身のisHimaを取得
