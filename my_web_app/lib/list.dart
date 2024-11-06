@@ -152,24 +152,60 @@ class _NextPageState extends State<NextPage> {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text(himaPeople
-                                    .firstWhere(
-                                        (person) =>
-                                            person.id ==
-                                            FirebaseAuth
-                                                .instance.currentUser?.uid,
-                                        orElse: () => HimaPeople(
-                                              id: '',
-                                              mail: '',
-                                              isHima: false,
-                                              name: 'No Name',
-                                              deadline: '',
-                                              place: '',
-                                            ))
-                                    .name ??
-                                "No Name"),
-                            const Text('~00:00'),
-                            const Text('テスト')
+                            Text(
+                              himaPeople
+                                      .firstWhere(
+                                          (person) =>
+                                              person.id ==
+                                              FirebaseAuth
+                                                  .instance.currentUser?.uid,
+                                          orElse: () => HimaPeople(
+                                                id: '',
+                                                mail: '',
+                                                isHima: false,
+                                                name: 'No Name',
+                                                deadline: '',
+                                                place: '',
+                                              ))
+                                      .name ??
+                                  "No Name",
+                            ),
+                            Text(
+                              himaPeople
+                                      .firstWhere(
+                                          (person) =>
+                                              person.id ==
+                                              FirebaseAuth
+                                                  .instance.currentUser?.uid,
+                                          orElse: () => HimaPeople(
+                                                id: '',
+                                                mail: '',
+                                                isHima: false,
+                                                name: 'No Name',
+                                                deadline: '',
+                                                place: '',
+                                              ))
+                                      .deadline ??
+                                  "No LIMIT",
+                            ),
+                            Text(
+                              himaPeople
+                                      .firstWhere(
+                                          (person) =>
+                                              person.id ==
+                                              FirebaseAuth
+                                                  .instance.currentUser?.uid,
+                                          orElse: () => HimaPeople(
+                                                id: '',
+                                                mail: '',
+                                                isHima: false,
+                                                name: 'No Name',
+                                                deadline: '',
+                                                place: '',
+                                              ))
+                                      .place ??
+                                  "Nowhere",
+                            ),
                           ],
                         ),
                       ),
