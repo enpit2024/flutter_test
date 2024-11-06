@@ -260,76 +260,88 @@ class _NextPageState extends State<NextPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.large(
-        backgroundColor: _isHima
-            ? const Color.fromARGB(255, 86, 21, 89)
-            : const Color.fromARGB(255, 246, 154, 15), // Light blue color
-        elevation: 8.0,
-        shape: const CircleBorder(), // Ensures a perfect circle shape
-        onPressed: () async {
-          DateTime now = DateTime.now();
-          String formattedTime = "${now.hour}:${now.minute}";
-
-          // ユーザー情報を取得
-          final user = FirebaseAuth.instance.currentUser;
-          final uid = user?.uid;
-          final email = user?.email;
-
-          // ログインできているか確認
-          bool isLogin = FirebaseAuth.instance.currentUser != null;
-
-          // ログインしていなければログイン画面に遷移
-          if (!isLogin) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
-            );
-          }
-
-          final snapshot = await FirebaseFirestore.instance
-              .collection("users")
-              .where("id", isEqualTo: uid)
-              .get();
-
-          HimaPeople newPerson;
-          bool isHima = true;
-
-          if (snapshot.docs.isEmpty) {
-            newPerson = HimaPeople(
-              id: '$uid',
-              mail: '$email',
-              isHima: true,
-              name: name,
-              deadline: "12:34",
-              place: "春日",
-            );
-            await addHimaPerson(newPerson);
-          } else {
-            // snapshot.docs[0].data()の中身のisHimaを取得
-            isHima = snapshot.docs[0].data()['isHima'];
-
-            // snapshot.docs[0]のisHimaを反転
-            await FirebaseFirestore.instance
-                .collection("users")
-                .doc(snapshot.docs[0].id)
-                .update({'isHima': !isHima});
-          }
-
-          setState(() {
-            _isHima = !isHima;
-          });
-
-          get();
-        },
-        child: Text(
-          _isHima ? '忙' : '暇',
-          style: const TextStyle(
-            fontSize: 36, // Increased font size
-            fontWeight: FontWeight.bold, // Optional: makes the text bolder
-            color: Colors.white, // Ensures good contrast with the background
+      bottomNavigationBar: BottomAppBar(
+        child: Center(
+          child: ToggleSwitch(
+            initialLabelIndex: _isHima ? 1 : 0,
+            totalSwitches: 2,
+            labels: ['忙', '暇'],
+            onToggle: (index) {
+              _toggleHimaStatus(index!);
+            },
           ),
         ),
       ),
+      // floatingActionButton: FloatingActionButton.large(
+      //   backgroundColor: _isHima
+      //       ? const Color.fromARGB(255, 86, 21, 89)
+      //       : const Color.fromARGB(255, 246, 154, 15), // Light blue color
+      //   elevation: 8.0,
+      //   shape: const CircleBorder(), // Ensures a perfect circle shape
+      //   onPressed: () async {
+      //     DateTime now = DateTime.now();
+      //     String formattedTime = "${now.hour}:${now.minute}";
+
+      //     // ユーザー情報を取得
+      //     final user = FirebaseAuth.instance.currentUser;
+      //     final uid = user?.uid;
+      //     final email = user?.email;
+
+      //     // ログインできているか確認
+      //     bool isLogin = FirebaseAuth.instance.currentUser != null;
+
+      //     // ログインしていなければログイン画面に遷移
+      //     if (!isLogin) {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => const MyHomePage()),
+      //       );
+      //     }
+
+      //     final snapshot = await FirebaseFirestore.instance
+      //         .collection("users")
+      //         .where("id", isEqualTo: uid)
+      //         .get();
+
+      //     HimaPeople newPerson;
+      //     bool isHima = true;
+
+      //     if (snapshot.docs.isEmpty) {
+      //       newPerson = HimaPeople(
+      //         id: '$uid',
+      //         mail: '$email',
+      //         isHima: true,
+      //         name: name,
+      //         deadline: "12:34",
+      //         place: "春日",
+      //       );
+      //       await addHimaPerson(newPerson);
+      //     } else {
+      //       // snapshot.docs[0].data()の中身のisHimaを取得
+      //       isHima = snapshot.docs[0].data()['isHima'];
+
+      //       // snapshot.docs[0]のisHimaを反転
+      //       await FirebaseFirestore.instance
+      //           .collection("users")
+      //           .doc(snapshot.docs[0].id)
+      //           .update({'isHima': !isHima});
+      //     }
+
+      //     setState(() {
+      //       _isHima = !isHima;
+      //     });
+
+      //     get();
+      //   },
+      //   child: Text(
+      //     _isHima ? '忙' : '暇',
+      //     style: const TextStyle(
+      //       fontSize: 36, // Increased font size
+      //       fontWeight: FontWeight.bold, // Optional: makes the text bolder
+      //       color: Colors.white, // Ensures good contrast with the background
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
