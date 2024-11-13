@@ -263,6 +263,20 @@ class _NextPageState extends State<NextPage> {
       bottomNavigationBar: BottomAppBar(
         child: Center(
           child: ToggleSwitch(
+            minWidth: 130.0,
+            minHeight: 90.0,
+            cornerRadius: 50.0,
+            activeFgColor: Colors.white,
+            inactiveBgColor: Colors.grey,
+            inactiveFgColor: Colors.white,
+            activeBgColors: [
+              [Colors.black45, Colors.black26],
+              [Colors.yellow, Colors.orange]
+            ],
+            animate:
+                true, // with just animate set to true, default curve = Curves.easeIn
+            curve: Curves
+                .bounceInOut, // animate must be set to true when using custom curve
             initialLabelIndex: _isHima ? 1 : 0,
             totalSwitches: 2,
             labels: ['忙', '暇'],
